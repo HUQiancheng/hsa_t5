@@ -57,3 +57,18 @@ def rc_lowpass(cutoff: float, r: float | None = None, c: float | None = None) ->
 def rc_highpass(cutoff: float, r: float | None = None, c: float | None = None) -> tuple[float, float]:
     """Design a simple RC high-pass filter using the same approach as :func:`rc_lowpass`."""
     return rc_lowpass(cutoff, r, c)
+
+def rc_bandpass(lowcut: float, highcut: float, r: float | None = None, c: float | None = None) -> tuple[float, float]:
+    """Design a simple RC band-pass filter by cascading a high-pass and a low-pass.
+
+    The same R and C are returned for both stages for simplicity. The resulting
+    center frequency is roughly the geometric mean of ``lowcut`` and ``highcut``.
+    """
+    if r is None and c is None:
+        r = 1e3
+    if r is None:
+        r = 1 / (2 * np.pi * lowcut * c)
+    if c is None:
+        c = 1 / (2 * np.pi * highcut * r)
+    return float(r), float(c)
+

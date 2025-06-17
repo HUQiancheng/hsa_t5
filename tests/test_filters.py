@@ -6,6 +6,7 @@ from src.filter_design import (
     apply_filter,
     rc_lowpass,
     rc_highpass,
+    rc_bandpass,
 )
 from src.fft_utils import compute_fft
 
@@ -41,3 +42,6 @@ def test_rc_filter_design():
     assert np.isclose(1 / (2 * np.pi * r * c), 50, atol=1)
     r2, c2 = rc_highpass(500, c=1e-6)
     assert np.isclose(1 / (2 * np.pi * r2 * c2), 500, atol=1)
+    rbp, cbp = rc_bandpass(400, 600, r=1e3)
+    fc_low = 1 / (2 * np.pi * rbp * cbp)
+    assert 400 <= fc_low <= 600
