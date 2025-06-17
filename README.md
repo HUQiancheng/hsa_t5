@@ -1,5 +1,4 @@
 Utilities for Tutorial 5: Acoustic Sensors and Signal Processing
-================================================================
 
 This repository provides helper functions and standalone Python scripts to
 complete the FFT, correlation and filtering exercises from the tutorial.
