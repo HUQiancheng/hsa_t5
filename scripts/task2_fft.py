@@ -17,7 +17,6 @@ def main(output_dir="results/figures"):
     components = [(50, 1.0), (120, 0.5)]
     t, signal = sum_sine_waves(components, fs, duration)
 
-    # plot waveform
     plt.figure()
     plt.plot(t, signal)
     plt.xlabel("Time [s]")
@@ -27,7 +26,6 @@ def main(output_dir="results/figures"):
     plt.savefig(wave_path)
     plt.close()
 
-    # FFT of clean signal
     freqs, mag = compute_fft(signal, fs, full_range=True)
     plt.figure()
     plt.plot(freqs, mag)
@@ -39,7 +37,6 @@ def main(output_dir="results/figures"):
     plt.savefig(spectrum_path)
     plt.close()
 
-    # Noisy signal and FFT
     noisy_signal = add_noise(signal, 0.5)
     plt.figure()
     plt.plot(t, noisy_signal)

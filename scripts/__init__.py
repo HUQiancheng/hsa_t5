@@ -1,10 +1,4 @@
-"""Scripts to reproduce the tutorial tasks.
-
-This package also provides a small helper to ensure the repository
-root is on ``sys.path`` when running scripts directly. Import and call
-``add_repo_root_to_path()`` at the top of a script so relative imports
-from ``src`` work regardless of the current working directory.
-"""
+"""Utilities for running the task scripts with correct import paths."""
 
 from __future__ import annotations
 
