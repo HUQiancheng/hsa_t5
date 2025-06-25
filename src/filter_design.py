@@ -71,4 +71,3 @@ def rc_bandpass(lowcut: float, highcut: float, r: float | None = None, c: float 
     if c is None:
         c = 1 / (2 * np.pi * highcut * r)
     return float(r), float(c)
-

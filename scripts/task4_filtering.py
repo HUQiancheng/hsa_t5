@@ -1,10 +1,10 @@
 import os
-import sys
 from matplotlib import pyplot as plt
 import numpy as np
 
-# Ensure imports work when running the script directly
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from scripts import add_repo_root_to_path
+
+add_repo_root_to_path()
 
 from src.signal_generation import sum_sine_waves
 from src.filter_design import (
@@ -30,7 +30,8 @@ def main(fig_dir="results/figures"):
     plt.plot(t, signal)
     plt.xlabel("Time [s]")
     plt.title("Original signal")
-    plt.savefig(os.path.join(fig_dir, "filter_original.png"))
+    orig_path = os.path.join(fig_dir, "task4_2_sum_of_two_sine_waves.png")
+    plt.savefig(orig_path)
     plt.close()
 
     # Analog RC calculations
@@ -48,7 +49,7 @@ def main(fig_dir="results/figures"):
     plt.plot(t, filtered_lp)
     plt.xlabel("Time [s]")
     plt.title("Low-pass filtered")
-    lp_path = os.path.join(fig_dir, "lowpass_filtered.png")
+    lp_path = os.path.join(fig_dir, "task4_5_lowpass_filtered.png")
     plt.savefig(lp_path)
     plt.close()
 
@@ -59,24 +60,31 @@ def main(fig_dir="results/figures"):
     plt.plot(t, filtered_hp)
     plt.xlabel("Time [s]")
     plt.title("High-pass filtered")
-    hp_path = os.path.join(fig_dir, "highpass_filtered.png")
+    hp_path = os.path.join(fig_dir, "task4_8_highpass_filtered.png")
     plt.savefig(hp_path)
     plt.close()
 
     # Add 1000 Hz component and band-pass
     _, sig1000 = sum_sine_waves([(1000, 1.0)], fs, duration)
     composite = signal + sig1000
+    plt.figure()
+    plt.plot(t, composite)
+    plt.xlabel("Time [s]")
+    plt.title("Three-sine composite")
+    comp_path = os.path.join(fig_dir, "task4_9_sum_three_sine_waves.png")
+    plt.savefig(comp_path)
+    plt.close()
     b_bp, a_bp = butter_bandpass(400, 600, fs, order=1)
     filtered_bp = apply_filter(composite, b_bp, a_bp)
     plt.figure()
     plt.plot(t, filtered_bp)
     plt.xlabel("Time [s]")
     plt.title("Band-pass filtered")
-    bp_path = os.path.join(fig_dir, "bandpass_filtered.png")
+    bp_path = os.path.join(fig_dir, "task4_12_bandpass_filtered.png")
     plt.savefig(bp_path)
     plt.close()
 
-    return lp_path, hp_path, bp_path
+    return orig_path, lp_path, hp_path, comp_path, bp_path
 
 
 if __name__ == "__main__":

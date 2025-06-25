@@ -1,0 +1,41 @@
+\section{Sound Source Localization}
+\begin{enumerate}
+\item[R.1.1] The azimuth $\theta$ for a two microphone setup with spacing $d$ is obtained from the time difference of arrival $\Delta t$ as
+\[\theta = \arcsin\Bigl(\frac{c \Delta t}{d}\Bigr),\]
+where $c$ is the speed of sound.
+\item[R.1.2] A moving target changes the round--trip time of radar pulses. If $\Delta d$ is the change in measured distance over the time $\Delta t$, the radial velocity is $v = \Delta d/\Delta t$.
+\item[R.1.3] Distance can be measured from the time it takes for a pulse to travel to the target and back: $d=c t/2$.
+\item[R.1.4] The target speed can be measured from consecutive distance measurements or from the Doppler shift of the reflected signal.
+\end{enumerate}
+
+\section{Fast Fourier Transform}
+\begin{enumerate}
+\item[R.2.1] FFT can be applied to streaming data by processing it in small, overlapping windows (short--time FFT). The latency is the window length.
+\item[R.2.2] FFT is widely used for spectral analysis, fast convolution and digital filter implementation.
+\item[R.2.3] The code to generate the signals and plots is provided in \texttt{scripts/task2\_fft.py}.
+\end{enumerate}
+
+\section{Audio Correlation}
+\begin{enumerate}
+\item[R.3.1] Cross--correlation can be executed online by keeping a sliding window buffer for each channel and updating the correlation as new samples arrive.
+\item[R.3.2] If a full correlation is not feasible, the interaural time difference can be estimated on shorter windows or by tracking the peak position of a running correlation.
+\item[R.3.3] The code for Tasks~3.1--3.8 is found in \texttt{scripts/task3\_correlation.py}.
+\end{enumerate}
+
+\section{Signal Filtering}
+\begin{enumerate}
+\item[R.4.1] For an RC low--pass filter the cut--off is $f_c=1/(2\pi R C)$. Choose either $R$ or $C$ (e.g. $1\,\mathrm{k\Omega}$) and compute the other accordingly. The circuit is a resistor followed by a capacitor to ground.
+\item[R.4.2] A discrete first--order low--pass with cut--off $f_c$ can be derived from the differential equation of the RC circuit via the bilinear transform, yielding $y[n]=\alpha x[n]+(1-\alpha) y[n-1]$ with $\alpha=\tfrac{2\pi f_c}{2\pi f_c+f_s}$.
+\item[R.4.3] The analog high--pass is similar with the capacitor in series and the resistor to ground.
+\item[R.4.4] The discrete high--pass comes from the RC high--pass differential equation, resulting in $y[n]=\alpha(y[n-1]+x[n]-x[n-1])$ with the same $\alpha$ definition.
+\item[R.4.5] A band--pass active filter can be built by cascading a high--pass and a low--pass around an operational amplifier to provide gain.
+\item[R.4.6] The discrete band--pass filter is obtained by combining digital high--pass and low--pass sections.
+\item[R.4.7] Passive filters use only resistors, capacitors and inductors, whereas active filters incorporate amplifying elements such as operational amplifiers.
+\item[R.4.8] FIR filters have a finite impulse response and are always stable; IIR filters have feedback and may be more efficient but can be unstable.
+\item[R.4.9] The order of a discrete filter corresponds to the number of previous samples used in its difference equation.
+\item[R.4.10] Continuous--time filtering can be implemented with analog circuits such as RC or RLC networks.
+\item[R.4.11] Discrete filters can be implemented in software by computing the difference equation at each sampling step.
+\item[R.4.12] Analog filters have low latency and no discretisation noise but offer little flexibility. Digital filters are easily adjustable and can implement complex responses but require sampling and introduce processing delay.
+\item[R.4.13] A digital system cannot implement a 1000~Hz low--pass with a 1000~Hz sampling rate because the Nyquist frequency would be 500~Hz; the cut--off must be well below half the sampling rate.
+\item[R.4.14] The source code for Tasks~4.1--4.12 is contained in \texttt{scripts/task4\_filtering.py}.
+\end{enumerate}

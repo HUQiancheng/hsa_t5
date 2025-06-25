@@ -1,11 +1,11 @@
 import os
-import sys
 import numpy as np
 import soundfile as sf
 from matplotlib import pyplot as plt
 
-# Ensure imports work when running the script directly
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from scripts import add_repo_root_to_path
+
+add_repo_root_to_path()
 
 from src.correlation_utils import cross_correlation
 from src.signal_generation import add_noise
@@ -27,7 +27,8 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     plt.plot(t, mono)
     plt.xlabel("Time [s]")
     plt.title("Chimes channel")
-    plt.savefig(os.path.join(fig_dir, "chimes_channel.png"))
+    orig_path = os.path.join(fig_dir, "task3_1_original_signal.png")
+    plt.savefig(orig_path)
     plt.close()
 
     freqs, mag = compute_fft(mono, fs)
@@ -36,23 +37,25 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude")
     plt.title("FFT of chimes")
-    plt.savefig(os.path.join(fig_dir, "chimes_fft.png"))
+    fft_path = os.path.join(fig_dir, "task3_2_chimes_fft.png")
+    plt.savefig(fft_path)
     plt.close()
 
     delay_samples = int(delay * fs)
     left = mono
     right = np.roll(mono, delay_samples) * scale
     stereo = np.stack([left, right], axis=1)
-    stereo_path = os.path.join(audio_dir, "stereo_example.wav")
+    stereo_path = os.path.join(audio_dir, "task3_3_stereo_example.wav")
     sf.write(stereo_path, stereo, fs)
 
     plt.figure()
-    plt.plot(t, left, label="left")
-    plt.plot(t, right, label="right", alpha=0.7)
+    plt.plot(t, left, label="Left channel")
+    plt.plot(t, right, label="Right channel", alpha=0.7)
     plt.legend()
     plt.xlabel("Time [s]")
     plt.title("Stereo signals")
-    plt.savefig(os.path.join(fig_dir, "stereo_signals.png"))
+    stereo_fig_path = os.path.join(fig_dir, "task3_4_signals_with_scaling_and_delay.png")
+    plt.savefig(stereo_fig_path)
     plt.close()
 
     lags, corr = cross_correlation(left, right)
@@ -61,7 +64,8 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     plt.xlabel("Delay [s]")
     plt.ylabel("Correlation")
     plt.title("Cross-correlation")
-    plt.savefig(os.path.join(fig_dir, "correlation.png"))
+    corr_fig = os.path.join(fig_dir, "task3_6_cross_correlation.png")
+    plt.savefig(corr_fig)
     plt.close()
 
     left_n = add_noise(left, 0.1)
@@ -72,11 +76,11 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     plt.xlabel("Delay [s]")
     plt.ylabel("Correlation")
     plt.title("Cross-correlation with noise")
-    noisy_corr_path = os.path.join(audio_dir, "noisy_correlation.png")
-    plt.savefig(noisy_corr_path)
+    noisy_corr_fig = os.path.join(fig_dir, "task3_8_cross_correlations.png")
+    plt.savefig(noisy_corr_fig)
     plt.close()
 
-    return stereo_path, noisy_corr_path
+    return stereo_path, orig_path, fft_path, stereo_fig_path, corr_fig, noisy_corr_fig
 
 
 if __name__ == "__main__":
