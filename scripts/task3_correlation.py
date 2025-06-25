@@ -45,7 +45,7 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     left = mono
     right = np.roll(mono, delay_samples) * scale
     stereo = np.stack([left, right], axis=1)
-    stereo_path = os.path.join(audio_dir, "stereo_example.wav")
+    stereo_path = os.path.join(audio_dir, "task3_3_stereo_example.wav")
     sf.write(stereo_path, stereo, fs)
 
     plt.figure()
@@ -54,7 +54,7 @@ def main(fig_dir="results/figures", audio_dir="results/audio", delay=0.005, scal
     plt.legend()
     plt.xlabel("Time [s]")
     plt.title("Stereo signals")
-    stereo_fig_path = os.path.join(fig_dir, "task3_4_signal_with_scaling_and_delay.png")
+    stereo_fig_path = os.path.join(fig_dir, "task3_4_signals_with_scaling_and_delay.png")
     plt.savefig(stereo_fig_path)
     plt.close()
 

@@ -23,7 +23,7 @@ def main(output_dir="results/figures"):
     plt.xlabel("Time [s]")
     plt.ylabel("Amplitude")
     plt.title("Two-sine signal")
-    wave_path = os.path.join(output_dir, "task2_1_sum_s1s2.png")
+    wave_path = os.path.join(output_dir, "task2_1_sum_two_sine_waves.png")
     plt.savefig(wave_path)
     plt.close()
 
@@ -34,7 +34,7 @@ def main(output_dir="results/figures"):
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude")
     plt.title("FFT")
-    spectrum_path = os.path.join(output_dir, "task2_2_normalized_spectrum_signal.png")
+    spectrum_path = os.path.join(output_dir, "task2_2_normalized_spectrum.png")
     plt.savefig(spectrum_path)
     plt.close()
 

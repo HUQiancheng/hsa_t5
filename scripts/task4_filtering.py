@@ -30,7 +30,7 @@ def main(fig_dir="results/figures"):
     plt.plot(t, signal)
     plt.xlabel("Time [s]")
     plt.title("Original signal")
-    orig_path = os.path.join(fig_dir, "task4_2_sum_of_two_sinus_waves.png")
+    orig_path = os.path.join(fig_dir, "task4_2_sum_of_two_sine_waves.png")
     plt.savefig(orig_path)
     plt.close()
 
@@ -80,7 +80,7 @@ def main(fig_dir="results/figures"):
     plt.plot(t, filtered_bp)
     plt.xlabel("Time [s]")
     plt.title("Band-pass filtered")
-    bp_path = os.path.join(fig_dir, "task4_12_bandpass_filtered_seemed_to_be_wrong.png")
+    bp_path = os.path.join(fig_dir, "task4_12_bandpass_filtered.png")
     plt.savefig(bp_path)
     plt.close()
 
