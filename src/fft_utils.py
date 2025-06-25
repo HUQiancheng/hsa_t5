@@ -13,13 +13,6 @@ def compute_fft(signal: ArrayLike, fs: int, full_range: bool = False) -> tuple[
         Input time-domain signal.
     fs : int
         Sampling frequency in Hz.
-
-    Parameters
-    ----------
-    signal : array_like
-        Input time-domain signal.
-    fs : int
-        Sampling frequency in Hz.
     full_range : bool, optional
         If ``True`` the returned frequency axis covers ``0..fs`` so it is
         symmetric around ``fs/2``. Otherwise only ``0..fs/2`` is returned.

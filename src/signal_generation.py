@@ -28,9 +28,13 @@ def sum_sine_waves(components, fs: int, duration: float) -> tuple[np.ndarray, np
         Generated signal.
     """
     t = np.arange(0, duration, 1 / fs)
-    signal = np.zeros_like(t)
-    for freq, amp in components:
-        signal += amp * np.sin(2 * np.pi * freq * t)
+    components = np.asarray(components, dtype=float)
+    if components.size == 0:
+        return t, np.zeros_like(t)
+    freqs = components[:, 0][:, None]
+    amps = components[:, 1][:, None]
+    phases = 2 * np.pi * freqs * t
+    signal = np.sum(amps * np.sin(phases), axis=0)
     return t, signal
 
 

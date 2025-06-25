@@ -1,9 +1,9 @@
 import os
-import sys
 from matplotlib import pyplot as plt
 
-# Ensure imports work when running the script directly
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from scripts import add_repo_root_to_path
+
+add_repo_root_to_path()
 
 from src.signal_generation import sum_sine_waves, add_noise
 from src.fft_utils import compute_fft
