@@ -28,9 +28,10 @@ def main(output_dir="results/figures"):
     plt.close()
 
     # FFT of clean signal
-    freqs, mag = compute_fft(signal, fs)
+    freqs, mag = compute_fft(signal, fs, full_range=True)
     plt.figure()
     plt.plot(freqs, mag)
+    plt.xlim(0, fs)
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude")
     plt.title("FFT")
@@ -49,9 +50,10 @@ def main(output_dir="results/figures"):
     plt.savefig(noisy_wave_path)
     plt.close()
 
-    freqs_n, mag_n = compute_fft(noisy_signal, fs)
+    freqs_n, mag_n = compute_fft(noisy_signal, fs, full_range=True)
     plt.figure()
     plt.plot(freqs_n, mag_n)
+    plt.xlim(0, fs)
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude")
     plt.title("FFT of noisy signal")

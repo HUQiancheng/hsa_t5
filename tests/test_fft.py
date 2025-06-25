@@ -13,3 +13,12 @@ def test_fft_identifies_frequencies():
     detected_freqs = sorted(freqs[top_indices])
     assert np.isclose(detected_freqs[0], 50, atol=1)
     assert np.isclose(detected_freqs[1], 120, atol=1)
+
+
+def test_fft_full_range_extends_to_sampling_rate():
+    fs = 1000
+    duration = 1
+    _, sig = sum_sine_waves([(50, 1.0)], fs, duration)
+    freqs, _ = compute_fft(sig, fs, full_range=True)
+    assert freqs[0] == 0
+    assert freqs[-1] == fs - fs / len(sig)
