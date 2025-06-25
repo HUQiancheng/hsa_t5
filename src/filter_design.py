@@ -58,7 +58,6 @@ def rc_highpass(cutoff: float, r: float | None = None, c: float | None = None) -
     """Design a simple RC high-pass filter using the same approach as :func:`rc_lowpass`."""
     return rc_lowpass(cutoff, r, c)
 
-
 def rc_bandpass(lowcut: float, highcut: float, r: float | None = None, c: float | None = None) -> tuple[float, float]:
     """Design a simple RC band-pass filter by cascading a high-pass and a low-pass.
 
