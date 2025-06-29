@@ -1,5 +1,5 @@
 \documentclass{article}
-
+\usepackage[american]{circuitikz}
 \usepackage[english]{babel}
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm]{geometry}
 \usepackage{amsmath,amssymb}
@@ -190,8 +190,17 @@ Selecting the default value used in the code (\texttt{rc\_lowpass(50)}), $R$ is 
 \[
 C=\frac{1}{2\pi f_c R}=\frac{1}{2\pi\,(50)\,(1\,000)}\approx 3.18\,\mu\mathrm{F}.
 \]
-The −3 dB corner frequency is verified by $f_c = 1/(2\pi RC)$.  
+The -3 dB corner frequency is verified by $f_c = 1/(2\pi RC)$.  
 The circuit is: input → $R$ → node; node → $C$ → ground; node is the output.
+
+\begin{circuitikz}[american]
+\draw
+  (0,0) node[left]{Vin}
+        to[R=$1\,\mathrm{k}\Omega$] (2,0) node[ocirc] (vout){}
+  (vout) to[C=$3.18\,\mu\mathrm{F}$] (2,-2) node[ground]{}
+  (vout) node[above]{Vout};
+\end{circuitikz}
+
 
 %---------------------------------------------------------------
 \subsection*{R.4.2 Detail the design process of the filter in T.4.4. Derive the equation to implement the filter step by step on a data stream.}
@@ -216,6 +225,15 @@ C=\frac{1}{2\pi f_c R}=\frac{1}{2\pi\,(500)\,(1\,000)}\approx 0.32\,\mu\mathrm{F
 \]
 Circuit: input → $C$ → node; node → $R$ → ground; node is the output.
 
+\begin{circuitikz}[american]
+\draw
+  (0,0) node[left]{Vin}
+        to[C=$0.318\,\mu\mathrm{F}$] (2,0) node[ocirc] (vout){}
+  (vout) to[R=$1\,\mathrm{k}\Omega$] (2,-2) node[ground]{}
+  (vout) node[above]{Vout};
+\end{circuitikz}
+
+
 %---------------------------------------------------------------
 \subsection*{R.4.4 Detail the design process of the filter in T.4.7. Derive the equation to implement the filter step by step on a data stream.}
 
@@ -234,6 +252,44 @@ Calling \texttt{rc\_bandpass(400,600)} selects the default $R=1\,\mathrm{k}\Omeg
 C=\frac{1}{2\pi\,(600)\,(1\,000)}\approx0.27\,\mu\mathrm{F}.
 \]
 Both RC sections use this $R$ and $C$, giving a pass band centred near $500\,$Hz. The op-amp prevents interaction between stages and can provide gain.
+
+%---------------------------------------------------------------
+% Active band-pass 400–600 Hz  (center ≈ 500 Hz)
+% R = 1 kΩ, C = 0.27 µF   — values returned by rc_bandpass(400,600)
+%---------------------------------------------------------------
+\begin{circuitikz}[american]
+
+% ---------- High-pass section ----------
+\draw
+  (0,0) node[left]{Vin}
+  to[C,l=$0.27\,\mu\mathrm{F}$] (2,0) coordinate(hp) % series capacitor
+  to[R,l=$1\,\mathrm{k}\Omega$] (2,-2) node[ground]{}; % shunt resistor
+
+% ---------- Unity-gain buffer (op-amp) ----------
+\draw (4,0.9) node[op amp] (op) {}; % op-amp symbol ( + in upper left, − in lower left, out on right)
+
+% hp node feeds the non-inverting (+) input
+\draw (hp) |- (op.+);
+
+% feedback: out → right, then up, then left to the inverting (−) input
+\draw
+  (op.out) -- ++(0.6,0)          % move right
+           -- ++(0,1)            % move up
+           -- ($(op.-)+(0,0.6)$) % align above − input
+           -- (op.-);            % drop down to − input
+
+% ---------- Low-pass section ----------
+\draw
+  (op.out) -- ++(1,0)
+  to[R,l=$1\,\mathrm{k}\Omega$] ++(2,0) coordinate(lp) % series resistor
+  to[C,l_=$0.27\,\mu\mathrm{F}$] ++(0,-2) node[ground]{}; % shunt capacitor
+\draw (lp) node[above]{Vout};
+
+\end{circuitikz}
+%---------------------------------------------------------------
+
+
+
 
 %---------------------------------------------------------------
 \subsection*{R.4.6 Detail the design process of the filter in T.4.11. Derive the equation to implement the filter step by step on a data stream.}
@@ -305,6 +361,7 @@ filtered_hp = apply_filter(signal, b_hp, a_hp)
 b_bp, a_bp = butter_bandpass(400, 600, fs, order=1)
 filtered_bp = apply_filter(signal + 
     sum_sine_waves([(1000,1.0)], fs, 0.1)[1], b_bp, a_bp)
+    ...
 \end{verbatim}
 
 
