@@ -1,3 +1,6 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
 \section{Sound Source Localization}
 \begin{enumerate}
 \item[R.1.1] The azimuth $\theta$ for a two microphone setup with spacing $d$ is obtained from the time difference of arrival $\Delta t$ as
@@ -6,8 +9,6 @@ where $c$ is the speed of sound.
 \item[R.1.2] A moving target changes the round--trip time of radar pulses. If $\Delta d$ is the change in measured distance over the time $\Delta t$, the radial velocity is $v = \Delta d/\Delta t$.
 \item[R.1.3] Distance can be measured from the time it takes for a pulse to travel to the target and back: $d=c t/2$.
 \item[R.1.4] The target speed can be measured from consecutive distance measurements or from the Doppler shift of the reflected signal.
-\end{enumerate}
-
 \section{Fast Fourier Transform}
 \begin{enumerate}
 \item[R.2.1] FFT can be applied to streaming data by processing it in small, overlapping windows (short--time FFT). The latency is the window length.
@@ -39,3 +40,4 @@ where $c$ is the speed of sound.
 \item[R.4.13] A digital system cannot implement a 1000~Hz low--pass with a 1000~Hz sampling rate because the Nyquist frequency would be 500~Hz; the cut--off must be well below half the sampling rate.
 \item[R.4.14] The source code for Tasks~4.1--4.12 is contained in \texttt{scripts/task4\_filtering.py}.
 \end{enumerate}
+\end{document}

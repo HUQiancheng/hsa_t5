@@ -1,10 +1,11 @@
 import os
+import sys
+from pathlib import Path
 from matplotlib import pyplot as plt
 import numpy as np
 
-from scripts import add_repo_root_to_path
-
-add_repo_root_to_path()
+# ensure repository root is available for imports when run directly
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.signal_generation import sum_sine_waves
 from src.filter_design import (
@@ -34,7 +35,6 @@ def main(fig_dir="results/figures"):
     plt.savefig(orig_path)
     plt.close()
 
-    # Analog RC calculations
     r_lp, c_lp = rc_lowpass(50)
     r_hp, c_hp = rc_highpass(500)
     rbp, cbp = rc_bandpass(400, 600)
@@ -42,7 +42,6 @@ def main(fig_dir="results/figures"):
     print(f"RC high-pass: R={r_hp:.1f} Ohm, C={c_hp:.2e} F")
     print(f"RC band-pass (400-600 Hz): R={rbp:.1f} Ohm, C={cbp:.2e} F")
 
-    # Digital low-pass
     b_lp, a_lp = butter_lowpass(50, fs, order=1)
     filtered_lp = apply_filter(signal, b_lp, a_lp)
     plt.figure()
@@ -53,7 +52,6 @@ def main(fig_dir="results/figures"):
     plt.savefig(lp_path)
     plt.close()
 
-    # Digital high-pass
     b_hp, a_hp = butter_highpass(500, fs, order=1)
     filtered_hp = apply_filter(signal, b_hp, a_hp)
     plt.figure()
@@ -64,7 +62,6 @@ def main(fig_dir="results/figures"):
     plt.savefig(hp_path)
     plt.close()
 
-    # Add 1000 Hz component and band-pass
     _, sig1000 = sum_sine_waves([(1000, 1.0)], fs, duration)
     composite = signal + sig1000
     plt.figure()

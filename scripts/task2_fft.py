@@ -1,9 +1,11 @@
 import os
+import sys
+from pathlib import Path
 from matplotlib import pyplot as plt
 
-from scripts import add_repo_root_to_path
-
-add_repo_root_to_path()
+# make sure the repository root is on the path so imports work when
+# running this file directly
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.signal_generation import sum_sine_waves, add_noise
 from src.fft_utils import compute_fft
@@ -17,7 +19,6 @@ def main(output_dir="results/figures"):
     components = [(50, 1.0), (120, 0.5)]
     t, signal = sum_sine_waves(components, fs, duration)
 
-    # plot waveform
     plt.figure()
     plt.plot(t, signal)
     plt.xlabel("Time [s]")
@@ -27,7 +28,6 @@ def main(output_dir="results/figures"):
     plt.savefig(wave_path)
     plt.close()
 
-    # FFT of clean signal
     freqs, mag = compute_fft(signal, fs, full_range=True)
     plt.figure()
     plt.plot(freqs, mag)
@@ -39,7 +39,6 @@ def main(output_dir="results/figures"):
     plt.savefig(spectrum_path)
     plt.close()
 
-    # Noisy signal and FFT
     noisy_signal = add_noise(signal, 0.5)
     plt.figure()
     plt.plot(t, noisy_signal)

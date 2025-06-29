@@ -9,24 +9,7 @@ def sine_wave(freq: float, amplitude: float, fs: int, duration: float) -> np.nda
 
 
 def sum_sine_waves(components, fs: int, duration: float) -> tuple[np.ndarray, np.ndarray]:
-    """Generate a sum of sine waves.
-
-    Parameters
-    ----------
-    components: Iterable[tuple[float, float]]
-        Sequence of (frequency, amplitude) pairs.
-    fs: int
-        Sampling frequency.
-    duration: float
-        Signal duration in seconds.
-
-    Returns
-    -------
-    t: np.ndarray
-        Time vector.
-    signal: np.ndarray
-        Generated signal.
-    """
+    """Return the sum of sine waves defined by ``(freq, amp)`` pairs."""
     t = np.arange(0, duration, 1 / fs)
     components = np.asarray(components, dtype=float)
     if components.size == 0:

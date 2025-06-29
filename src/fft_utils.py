@@ -2,28 +2,8 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 
-def compute_fft(signal: ArrayLike, fs: int, full_range: bool = False) -> tuple[
-    np.ndarray, np.ndarray
-]:
-    """Compute the FFT magnitude of a real signal.
-
-    Parameters
-    ----------
-    signal : array_like
-        Input time-domain signal.
-    fs : int
-        Sampling frequency in Hz.
-    full_range : bool, optional
-        If ``True`` the returned frequency axis covers ``0..fs`` so it is
-        symmetric around ``fs/2``. Otherwise only ``0..fs/2`` is returned.
-
-    Returns
-    -------
-    freqs : np.ndarray
-        Frequency bins (positive frequencies).
-    magnitude : np.ndarray
-        Normalized magnitude of the FFT.
-    """
+def compute_fft(signal: ArrayLike, fs: int, full_range: bool = False) -> tuple[np.ndarray, np.ndarray]:
+    """Return frequency bins and magnitude of ``signal``. ``full_range`` gives ``0..fs``."""
     signal = np.asarray(signal)
     n = len(signal)
     spectrum = np.fft.fft(signal)
