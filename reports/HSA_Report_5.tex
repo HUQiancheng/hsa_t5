@@ -337,10 +337,15 @@ Both RC sections use this $R$ and $C$, giving a pass band centred near $500\,$Hz
 \subsection*{R.4.6 Detail the design process of the filter in T.4.11. Derive the equation to implement the filter step by step on a data stream.}
 
 The digital band-pass is produced in one call:
-\texttt{butter\_bandpass(400,600, fs=10\,000, order=1)}.  
-Internally this designs a Butterworth HP and LP, combines them, and yields
-\( H(z)=\frac{b_0+b_1z^{-1}+b_2z^{-2}}{1+a_1z^{-1}+a_2z^{-2}} \)  
-with coefficients automatically calculated by Scipy.  
+\texttt{butter\_bandpass(400,600, fs=10\,000, order=1)}.
+Scipy designs the Butterworth HP and LP sections and combines them, yielding
+\(
+  H(z)=\frac{b_0+b_1z^{-1}+b_2z^{-2}}{1+a_1z^{-1}+a_2z^{-2}}
+\)
+with
+\(b_0\approx0.059,\; b_1=0,\; b_2\approx-0.059,\; a_1\approx-1.793,\; a_2\approx0.882\).
+Thus the difference equation is
+\(y[n]=b_0\,x[n]+b_1\,x[n-1]+b_2\,x[n-2]-a_1\,y[n-1]-a_2\,y[n-2].\)
 The sample stream is filtered with \texttt{lfilter(b, a, data)}.
 
 %---------------------------------------------------------------
