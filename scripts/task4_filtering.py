@@ -6,9 +6,6 @@ import numpy as np
 
 # ensure repository root is available for imports when run directly
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts import add_repo_root_to_path
-
-add_repo_root_to_path()
 
 from src.signal_generation import sum_sine_waves
 from src.filter_design import (

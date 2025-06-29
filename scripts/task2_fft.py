@@ -6,9 +6,6 @@ from matplotlib import pyplot as plt
 # make sure the repository root is on the path so imports work when
 # running this file directly
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts import add_repo_root_to_path
-
-add_repo_root_to_path()
 
 from src.signal_generation import sum_sine_waves, add_noise
 from src.fft_utils import compute_fft
