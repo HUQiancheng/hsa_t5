@@ -4,8 +4,9 @@ Utilities for Tutorial 5: Acoustic Sensors and Signal Processing
 This repository provides helper functions and standalone Python scripts to
 complete the FFT, correlation and filtering exercises from the tutorial.
 
-The scripts are located in the `scripts/` directory and can be executed directly
-from the repository root, e.g.
+The scripts are located in the `scripts/` directory and can be executed
+directly. They prepend the repository root to `PYTHONPATH` so they work even
+when invoked via an absolute path from a different directory. Typical usage is:
 
 ```
 python scripts/task2_fft.py

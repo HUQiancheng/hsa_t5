@@ -1,11 +1,12 @@
 import os
+import sys
+from pathlib import Path
 import numpy as np
 import soundfile as sf
 from matplotlib import pyplot as plt
 
-from scripts import add_repo_root_to_path
-
-add_repo_root_to_path()
+# ensure imports work when executing directly
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.correlation_utils import cross_correlation
 from src.signal_generation import add_noise

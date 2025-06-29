@@ -3,11 +3,7 @@ from numpy.typing import ArrayLike
 
 
 def cross_correlation(sig1: ArrayLike, sig2: ArrayLike) -> tuple[np.ndarray, np.ndarray]:
-    """Compute the cross-correlation between two signals.
-
-    The result is normalized so that the autocorrelation of each signal at lag 0 is 1.
-    Returns lags in number of samples.
-    """
+    """Normalized cross-correlation of two signals, returning sample lags."""
     sig1 = np.asarray(sig1)
     sig2 = np.asarray(sig2)
     corr = np.correlate(sig1, sig2, mode="full")
