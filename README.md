@@ -1,24 +1,18 @@
-Utilities for Tutorial 5: Acoustic Sensors and Signal Processing
-================================================================
+This repository contains Jupyter Notebooks, helper functions, and Python scripts for the FFT, correlation, and filtering exercises.
 
-This repository provides helper functions and standalone Python scripts to
-complete the FFT, correlation and filtering exercises from the tutorial.
+We first completed the tasks interactively using notebooks (`tutorial5_task2_fft.ipynb`, `tutorial5_task3_correlation.ipynb`, `tutorial5_task4_filtering.ipynb`). Then, we created Python scripts in the `scripts/` directory to quickly reproduce the results. Usage:
 
-The scripts are located in the `scripts/` directory and can be executed
-directly. They prepend the repository root to `PYTHONPATH` so they work even
-when invoked via an absolute path from a different directory. Typical usage is:
-
-```
+```bash
 python scripts/task2_fft.py
 python scripts/task3_correlation.py
 python scripts/task4_filtering.py
 ```
 
-Results such as plots and audio files are stored in the `results/` folder.
-Generated files use the naming scheme `taskX_Y_<description>` so they can be
-matched to the task numbers in the assignment.
-The repository keeps empty directories under version control via `.gitkeep`
-files so scripts can create their outputs without additional setup.
+Plots and audio files are saved in the `results/` directory, clearly named by task (`taskX_Y_<description>`).
 
-Tests are provided in `tests/`. Install the dependencies listed in
-`requirements.txt` and run `pytest` to verify everything works.
+Dependencies are listed in `requirements.txt`. Install them with:
+
+```bash
+pip install -r requirements.txt
+```
+

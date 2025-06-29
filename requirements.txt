@@ -2,5 +2,5 @@ numpy
 scipy
 matplotlib
 jupyterlab
-librosa         # 方便加载和播放音频
-soundfile       # librosa 的依赖，用于 WAV I/O
+librosa         
+soundfile       
