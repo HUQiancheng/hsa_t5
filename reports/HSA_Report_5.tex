@@ -203,7 +203,7 @@ The bilinear transform maps the analog prototype \( H(s)=\frac{\omega_c}{s+\omeg
 Scipy returns
 \[ y[n]=b_0\,x[n]+b_1\,x[n-1]-a_1\,y[n-1]. \]
 With \(f_s=10\,000\) Hz and \(f_c=50\) Hz the coefficients are
-\( b_0=b_1=0.0305,\; a_1=-0.9391 \) (see \texttt{b,a} in the code).  
+\( b_0=b_1\approx0.0155,\; a_1\approx-0.969 \) (see \texttt{b,a} in the code).
 This equation is applied sample-by-sample using \texttt{scipy.signal.lfilter}.
 
 %---------------------------------------------------------------
@@ -219,31 +219,35 @@ Circuit: input → $C$ → node; node → $R$ → ground; node is the output.
 %---------------------------------------------------------------
 \subsection*{R.4.4 Detail the design process of the filter in T.4.7. Derive the equation to implement the filter step by step on a data stream.}
 
-\texttt{butter\_highpass(500, fs=10\,000, order=1)} gives  
-\( H(z)=\frac{b_0+b_1z^{-1}}{1+a_1z^{-1}} \) with  
-\( b_0= 0.9391,\; b_1=-0.9391,\; a_1=-0.8782. \)  
+\texttt{butter\_highpass(500, fs=10\,000, order=1)} gives
+\( H(z)=\frac{b_0+b_1z^{-1}}{1+a_1z^{-1}} \) with
+\( b_0\approx0.863,\; b_1\approx-0.863,\; a_1\approx-0.727. \)
 The resulting difference equation is  
 \( y[n]=b_0\,x[n]+b_1\,x[n-1]-a_1\,y[n-1]. \)
 
 %---------------------------------------------------------------
 \subsection*{R.4.5 Detail the design process of the filter in T.4.10. Draw the required circuit and calculate the value for the components step by step.}
 
-An active band-pass is formed by cascading the passive high-pass of 400 Hz and the passive low-pass of 600 Hz around an op-amp buffer.  
-Using \texttt{rc\_bandpass(400,600)} with the default $R=1\,\mathrm{k}\Omega$:
+An active band-pass is formed by cascading a high-pass and a low-pass stage around an op-amp buffer.
+Calling \texttt{rc\_bandpass(400,600)} selects the default $R=1\,\mathrm{k}\Omega$ and computes
 \[
-C_{HP}=\frac{1}{2\pi\,(400)\,(1\,000)}\approx 0.40\,\mu\mathrm{F},\quad
-C_{LP}=\frac{1}{2\pi\,(600)\,(1\,000)}\approx 0.26\,\mu\mathrm{F}.
+C=\frac{1}{2\pi\,(600)\,(1\,000)}\approx0.27\,\mu\mathrm{F}.
 \]
-The op-amp provides isolation and optional gain without loading either RC stage.
+Both RC sections use this $R$ and $C$, giving a pass band centred near $500\,$Hz. The op-amp prevents interaction between stages and can provide gain.
 
 %---------------------------------------------------------------
 \subsection*{R.4.6 Detail the design process of the filter in T.4.11. Derive the equation to implement the filter step by step on a data stream.}
 
 The digital band-pass is produced in one call:
-\texttt{butter\_bandpass(400,600, fs=10\,000, order=1)}.  
-Internally this designs a Butterworth HP and LP, combines them, and yields
-\( H(z)=\frac{b_0+b_1z^{-1}+b_2z^{-2}}{1+a_1z^{-1}+a_2z^{-2}} \)  
-with coefficients automatically calculated by Scipy.  
+\texttt{butter\_bandpass(400,600, fs=10\,000, order=1)}.
+Scipy designs the Butterworth HP and LP sections and combines them, yielding
+\(
+  H(z)=\frac{b_0+b_1z^{-1}+b_2z^{-2}}{1+a_1z^{-1}+a_2z^{-2}}
+\)
+with
+\(b_0\approx0.059,\; b_1=0,\; b_2\approx-0.059,\; a_1\approx-1.793,\; a_2\approx0.882\).
+Thus the difference equation is
+\(y[n]=b_0\,x[n]+b_1\,x[n-1]+b_2\,x[n-2]-a_1\,y[n-1]-a_2\,y[n-2].\)
 The sample stream is filtered with \texttt{lfilter(b, a, data)}.
 
 %---------------------------------------------------------------
